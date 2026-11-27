@@ -8,6 +8,17 @@ An Advanced Object Oriented Programming (25CS2205E) project proposal for a Java 
 
 The 13-slide deck covers the problem, related research, proposed design, use cases, requirements, feasibility, and the end-to-end workflow. Slide 5 pairs findings from four research papers with the prototype's planned responses. Full citations are in the speaker notes.
 
+## Run the Java starter
+
+From the repository root with JDK 17 installed:
+
+```sh
+javac -d out src/Charger.java src/ChargingStation.java src/ChargingStationNetwork.java
+java -cp out ChargingStationNetwork
+```
+
+The console demo creates a station, displays its charger states, and lists the available DC fast chargers. `ChargingStation` keeps its charger collection private and returns a read-only list. `Charger` uses its ID for equality so the station rejects duplicate IDs.
+
 ## Proposed prototype
 
 | Scenario | Planned behavior |
@@ -24,4 +35,4 @@ The 13-slide deck covers the problem, related research, proposed design, use cas
 - **State, Strategy, Observer, and Adapter** organize the session lifecycle, tariff selection, driver alerts, and messages from the charger simulator.
 - **Concurrency tests** use `ExecutorService` to send simultaneous booking or charging requests and verify that limits are enforced.
 
-The planned stack is Java 17, Spring Boot, PostgreSQL, Maven, and JUnit. The classroom demo uses simulated chargers and payments. This repository currently contains the project presentation and documentation.
+The starter runs in memory with Java 17. The proposed full prototype adds Spring Boot, PostgreSQL, Maven, JUnit, and simulated charger and payment integrations.
