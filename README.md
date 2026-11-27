@@ -19,6 +19,8 @@ java -cp out ChargingStationNetwork
 
 The console demo creates a station, displays its charger states, and lists the available DC fast chargers. `ChargingStation` keeps its charger collection private and returns a read-only list. `Charger` uses its ID for equality so the station rejects duplicate IDs.
 
+The demo also shows a single reservation on an available charger. A second driver cannot reserve the same charger, and only the reservation holder can cancel. The reservation lives in memory, and there are no time slots yet.
+
 ## Proposed prototype
 
 | Scenario | Planned behavior |

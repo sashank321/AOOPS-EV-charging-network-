@@ -6,12 +6,13 @@ public class Charger {
     }
 
     public enum Status {
-        AVAILABLE, OFFLINE
+        AVAILABLE, RESERVED, OFFLINE
     }
 
     private final String id;
     private final Type type;
     private final boolean online;
+    private String reservedBy;
 
     public Charger(String id, Type type, boolean online) {
         if (id == null || id.isBlank()) {
@@ -30,8 +31,30 @@ public class Charger {
         return type;
     }
 
-    public Status getStatus() {
-        return online ? Status.AVAILABLE : Status.OFFLINE;
+    public synchronized Status getStatus() {
+        if (!online) {
+            return Status.OFFLINE;
+        }
+        return reservedBy == null ? Status.AVAILABLE : Status.RESERVED;
+    }
+
+    public synchronized boolean reserve(String driverId) {
+        if (driverId == null || driverId.isBlank()) {
+            throw new IllegalArgumentException("Driver ID is required.");
+        }
+        if (!online || reservedBy != null) {
+            return false;
+        }
+        reservedBy = driverId;
+        return true;
+    }
+
+    public synchronized boolean cancelReservation(String driverId) {
+        if (reservedBy == null || !reservedBy.equals(driverId)) {
+            return false;
+        }
+        reservedBy = null;
+        return true;
     }
 
     @Override
